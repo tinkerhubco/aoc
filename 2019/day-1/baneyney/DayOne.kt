@@ -110,13 +110,10 @@ fun main(args: Array<String>) {
 }
 
 fun computeRequiredFuel(initialMass: Int, fuelRequired: Int): Int {
-    var totalRequiredFuel = fuelRequired
-    if (initialMass <= 0) {
-        return totalRequiredFuel
+    val fuel = Math.floor((Math.floor(initialMass / 3.0) - 2)).toInt()
+    if (fuel <= 0) {
+        return fuelRequired
     } else {
-        val fuel = Math.floor((Math.floor(initialMass / 3.0) - 2)).toInt()
-        if (fuel <= 0) return totalRequiredFuel
-        totalRequiredFuel += fuel
-        return computeRequiredFuel(fuel, totalRequiredFuel)
+        return computeRequiredFuel(fuel, fuelRequired + fuel)
     }
 }
