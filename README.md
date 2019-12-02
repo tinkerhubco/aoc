@@ -1,19 +1,27 @@
-# The AOC Archives
+# Welcome to aoc 👋
+[![Version](https://img.shields.io/npm/v/aoc.svg)](https://www.npmjs.com/package/aoc)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-## Contribution
+> Collection of Advent Of Code solutions by different users
 
-1. Create a directory on where you'll put your solution with the format `{year}/day{day}/solutions/{{name | username | any }}`:
+### 🏠 [Homepage](https://github.com/tinker-hub/aoc)
 
-```
-2019
-  - day-1/
-    - solutions/
-      - isotopeee/
-        - index.js
-        - extrafile.js
-        - util.js
+## Usage
+
+```sh
+npm run make --day=today
 ```
 
-2. Create PR.
+## 🤝 Contributing
 
-ALL PRs are welcome ❤️
+Contributions, issues and feature requests are welcome!
+
+Feel free to check [issues page](https://github.com/tinker-hub/aoc/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
