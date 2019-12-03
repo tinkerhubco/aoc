@@ -13,6 +13,9 @@ L1004,U110,R738,D383,R606,U840,L123,D756,L234,D585,R475,U429,L585,D615,L859,D669
 //var input string = `R75,D30,R83,U83,L12,D49,R71,U7,L72
 //U62,R66,U55,R34,D71,R55,D58,R83`
 
+// var input string = `R8,U5,L5,D3
+// U7,R6,D4,L4`
+
 // var input string = `R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
 // U98,R91,D20,R16,D67,R40,U7,R15,U6,R7`
 
@@ -33,8 +36,10 @@ func main() {
 	x := 0
 	y := 0
 
-	min := 0
-	max := 0
+	minX := 0
+	maxX := 0
+	minY := 0
+	maxY := 0
 
 	for dex, in := range parsedInput {
 		x = 0
@@ -144,20 +149,20 @@ func main() {
 			  }
 			}
 
-			if max < x {
-				max = x
+			if maxX < x {
+				maxX = x
 			}
 
-			if min > x {
-				min = x
+			if minX > x {
+				minX = x
 			}
 
-			if max < y {
-				max = y
+			if maxY < y {
+				maxY = y
 			}
 
-			if min > y {
-				min = y
+			if minY > y {
+				minY = y
 			}
 		}
 	}	
@@ -166,24 +171,31 @@ func main() {
 	ff := false
 	var low float64 = 0
 	var minSteps int = 0
+	for nx := minX; nx <= maxX; nx++ {
+		for ny := minY; ny <= maxY; ny++ {
 
-	for nx := min; nx <= max; nx++ {
-		for ny := min; ny <= max; ny++ {
+		
+			// fmt.Println(ny, nx)
+			// continue
+		// fmt.Println(ny, nx)
+
+		// for ny := minY; ny <= maxY; ny++ {
 			// break
+			// fmt.Println(nx, ny)
 			// test := nx + ny
 			cx := strconv.Itoa(nx)
 			cy := strconv.Itoa(ny)
-			_, e := mapper[cx]
+			_, e := mapper[cy]
 			if nx == 0 && ny == 0 {
 				// fmt.Print("0")
 				continue
 			}
 			if e {
 				//cy := strconv.Itoa(minY)
-			    _, ee := mapper[cx][cy]
+			    _, ee := mapper[cy][cx]
 			    if ee {
 			    	// fmt.Print("*")
-			    	if mapper[cx][cy].First != nil && mapper[cx][cy].Second != nil {
+			    	if mapper[cy][cx].First != nil && mapper[cy][cx].Second != nil {
 			    		// fmt.Println(nx, ny)
 			    		test := math.Abs(float64(nx)) + math.Abs(float64(ny))
 			    		// fmt.Println(nx, ny)
@@ -192,7 +204,7 @@ func main() {
 			    			f = true
 			    			low = test
 			    		}
-			    		stepsTaken := mapper[cx][cy].First.Steps + mapper[cx][cy].Second.Steps
+			    		stepsTaken := mapper[cy][cx].First.Steps + mapper[cy][cx].Second.Steps
 						if stepsTaken < minSteps || !ff {
 			    			// fmt.Println("intersect")
 			    			ff = true
@@ -205,8 +217,8 @@ func main() {
 
 			}
 		}
+		// fmt.Println()
 	}
-
 	fmt.Println(low) // Part 1
 	fmt.Println(minSteps) // Part 2
 }
