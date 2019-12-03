@@ -102,18 +102,25 @@ private val mass = arrayOf(
 )
 
 fun main(args: Array<String>) {
-    var fuelRequired = 0
+    var fuelRequiredForProblemNumber1 = 0
+    var fuelRequiredForProblemNumber2 = 0
     mass.forEach { 
-        fuelRequired += computeRequiredFuel(it, 0)
+        fuelRequiredForProblemNumber1 += computeFuel(it)
+        fuelRequiredForProblemNumber2 += computeRequiredFuel(it, 0)
     }
-    println("Total Fuel Required: $fuelRequired")
+    println("Problem #1: Total Fuel Required: $fuelRequiredForProblemNumber1")
+    println("Problem #2: Total Fuel Required $fuelRequiredForProblemNumber2")
 }
 
 fun computeRequiredFuel(initialMass: Int, fuelRequired: Int): Int {
-    val fuel = Math.floor((Math.floor(initialMass / 3.0) - 2)).toInt()
+    val fuel = computeFuel(initialMass)
     if (fuel <= 0) {
         return fuelRequired
     } else {
         return computeRequiredFuel(fuel, fuelRequired + fuel)
     }
+}
+
+fun computeFuel(initialMass: Int): Int {
+    return (Math.floor(initialMass / 3.0) - 2).toInt()
 }
