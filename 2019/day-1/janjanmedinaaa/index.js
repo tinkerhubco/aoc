@@ -1,4 +1,4 @@
-const list = require('./data.json')
+const list = require('./data.json.js')
 const partOne = (data) => {
   var sum = 0
   data.forEach(element => {
