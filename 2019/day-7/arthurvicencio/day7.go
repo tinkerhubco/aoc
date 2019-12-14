@@ -63,24 +63,12 @@ func main() {
          for ;  ; {
 
             ampAOutput, ampAIP = get(o1, ampASetting, ampEOutput[0], ampAIP)
-            if o1[ampAIP] == 99 {
-               break
-            }
 
             ampBOutput, ampBIP = get(o2, ampBSetting, ampAOutput[0], ampBIP)
-            if o2[ampBIP] == 99 {
-               break
-            }
 
             ampCOutput, ampCIP = get(o3, ampCSetting, ampBOutput[0], ampCIP)
-            if o3[ampCIP] == 99 {
-               break
-            }
 
             ampDOutput, ampDIP = get(o4, ampDSetting, ampCOutput[0], ampDIP)
-            if o4[ampDIP] == 99 {
-               break
-            }
 
             ampEOutput, ampEIP = get(o5, ampESetting, ampDOutput[0], ampEIP)
             if o5[ampEIP] == 99 {
@@ -200,7 +188,7 @@ func get(o []int, puts int, settings int, start int) ([]int, int) {
             p1 = o[p1]
          }
          out = append(out, p1)
-         i++
+         i+=2
          return out, i
          // fmt.Print(p1)
       } else if opCode == 5 {
