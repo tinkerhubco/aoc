@@ -6,6 +6,24 @@
   "commit": false,
   "contributors": [
     {
+      "login": "isotopeee",
+      "name": "isotopeee",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17417116?v=4",
+      "profile": "https://github.com/isotopeee",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "janjanmedinaaa",
+      "name": "Janjan Medina",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/30612273?v=4",
+      "profile": "https://www.npmjs.com/~janjanmedinaaa",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "jmaicaaan",
       "name": "JM Santos",
       "avatar_url": "https://avatars2.githubusercontent.com/u/13105222?v=4",
@@ -15,6 +33,15 @@
       ]
     },
     {
+      "login": "arthurvicencio",
+      "name": "arthurvicencio",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/18132523?v=4",
+      "profile": "https://github.com/arthurvicencio",
+      "contributions": [
+        "code"
+      ]
+    }
+    {
       "login": "hadjirulricky",
       "name": "Ricky L. Hadjirul",
       "avatar_url": "https://avatars1.githubusercontent.com/u/19464295?v=4",
@@ -22,7 +49,7 @@
       "contributions": [
         "code"
       ]
-    }
+    },
   ],
   "contributorsPerLine": 7,
   "projectName": "aoc",
