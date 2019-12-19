@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jmaicaaan",
+      "name": "JM Santos",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13105222?v=4",
+      "profile": "https://github.com/jmaicaaan",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "aoc",
+  "projectOwner": "tinker-hub",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
