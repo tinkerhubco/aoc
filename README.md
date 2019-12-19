@@ -1,6 +1,6 @@
 # Welcome to aoc 👋
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Version](https://img.shields.io/npm/v/aoc.svg)](https://www.npmjs.com/package/aoc)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
@@ -36,6 +36,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/jmaicaaan"><img src="https://avatars2.githubusercontent.com/u/13105222?v=4" width="100px;" alt=""/><br /><sub><b>JM Santos</b></sub></a><br /><a href="https://github.com/tinker-hub/aoc/commits?author=jmaicaaan" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/hadjirulricky"><img src="https://avatars1.githubusercontent.com/u/19464295?v=4" width="100px;" alt=""/><br /><sub><b>Ricky L. Hadjirul</b></sub></a><br /><a href="https://github.com/tinker-hub/aoc/commits?author=hadjirulricky" title="Code">💻</a></td>
   </tr>
 </table>
 
