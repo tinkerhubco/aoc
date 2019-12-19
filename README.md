@@ -36,6 +36,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/jmaicaaan"><img src="https://avatars2.githubusercontent.com/u/13105222?v=4" width="100px;" alt=""/><br /><sub><b>JM Santos</b></sub></a><br /><a href="https://github.com/tinker-hub/aoc/commits?author=jmaicaaan" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/isotopeee"><img src="https://avatars1.githubusercontent.com/u/17417116?v=4" width="100px;" alt=""/><br /><sub><b>isotopeee</b></sub></a><br /><a href="https://github.com/tinker-hub/aoc/commits?author=isotopeee" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/arthurvicencio"><img src="https://avatars0.githubusercontent.com/u/18132523?v=4" width="100px;" alt=""/><br /><sub><b>arthurvicencio</b></sub></a><br /><a href="https://github.com/tinker-hub/aoc/commits?author=arthurvicencio" title="Code">💻</a></td>
   </tr>
 </table>
