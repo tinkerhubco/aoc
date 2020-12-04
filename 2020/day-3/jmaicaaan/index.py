@@ -1,8 +1,6 @@
 from data import getContents
 
-import sys
-
-sys.setrecursionlimit(10**6) 
+import functools
 
 def is_tree(char):
   return char == '#'
@@ -89,42 +87,6 @@ def get_part_1():
   recurse()
 
 def get_part_2():
-  def peek_location(
-    initial_start_position,
-    initial_moves,
-    initial_text,
-    peeker_fn
-  ):
-    moves_left = initial_moves
-    char_position = initial_start_position
-    text = initial_text
-
-    if char_position == len(text):
-      peek_location(0, moves_left, text + initial_text, peeker_fn)
-      return
-
-    if char_position > len(text):
-      peek_location(char_position, moves_left, text + initial_text, peeker_fn)
-      return
-
-    # print(text[char_position])
-    # share the value to the peeker
-    # peeker_fn(text[char_position])
-
-    if moves_left == 0:
-      if peeker_fn:
-        # print('calling peeker_fn...')
-        peeker_fn(text[char_position])
-        # print('done calling peeker_fn...')
-      return
-
-    moves_left -= 1
-    char_position += 1
-
-    peek_location(char_position, moves_left, text, peeker_fn)
-    
-  # peek_location(9, 3, ".4...##..#.")
-
   # not sure why local variable don't work but this work...
   count = {
     'val': 0,
@@ -138,36 +100,36 @@ def get_part_2():
     {
       'x': 0,
       'y': 1,
-      'default_x': 1,
-      'default_y': 1,
+      'step_x': 1,
+      'step_y': 1,
     },
     {
       'x': 0,
       'y': 1,
-      'default_x': 3,
-      'default_y': 1,
+      'step_x': 3,
+      'step_y': 1,
     },
     {
       'x': 0,
       'y': 1,
-      'default_x': 5,
-      'default_y': 1,
+      'step_x': 5,
+      'step_y': 1,
     },
     {
       'x': 0,
       'y': 1,
-      'default_x': 7,
-      'default_y': 1,
+      'step_x': 7,
+      'step_y': 1,
     },
     {
       'x': 0,
       'y': 2,
-      'default_x': 1,
-      'default_y': 2,
+      'step_x': 1,
+      'step_y': 2,
     },
   ]
 
-  map = getContents()
+  play_map = getContents()
 
   def peeker(val):
     if is_tree(val):
@@ -188,49 +150,47 @@ def get_part_2():
     list_counter['val'] += 1
     return
 
-  def recurse():
-    counter = list_counter['val']
+  def peek_location(position, number_of_step, input, peeker_fn):
+    final_position = (position + number_of_step) % len(input)
+    peeker_fn(input[final_position])
+    return
 
-    if counter == len(coords_list):
-      print('done')
-      print('part 2 =', count['product'])
-      return
+  def recurse(slope_coordinates):
+    slope_counter = list_counter['val']
+    has_no_slopes_to_check = slope_counter > len(coords_list) -1
+    is_on_last_slope_path_row = slope_coordinates['y'] > len(play_map) -1
 
-    coord = coords_list[counter]
-
-    if coord['y'] > len(map):
-      handle_count_product()
-      handle_counter_increment()
+    if is_on_last_slope_path_row:
+      count_copy = count.copy()
       handle_count_reset()
+      return count_copy
 
-      recurse()
-      return
+    slope_path_row = play_map[slope_coordinates['y']]
 
-
-    if coord['y'] == len(map):
-
-      handle_count_product()
-      handle_counter_increment()
-      handle_count_reset()
-
-      
-      recurse()
-      return
-
-    path = map[coord['y']]
     peek_location(
-      coord['x'],
-      coord['default_x'],
-      path,
+      slope_coordinates['x'],
+      slope_coordinates['step_x'],
+      slope_path_row,
       peeker,
     )
 
-    coord['x'] += coord['default_x']
-    coord['y'] += coord['default_y']
+    slope_coordinates['x'] += slope_coordinates['step_x']
+    slope_coordinates['y'] += slope_coordinates['step_y']
 
-    recurse()
+    return recurse(slope_coordinates)
 
-  recurse()
+  values = map(lambda item_dict: item_dict['val'], [
+    recurse(coords_list[0]),
+    recurse(coords_list[1]),
+    recurse(coords_list[2]),
+    recurse(coords_list[3]),
+    recurse(coords_list[4])
+  ])
+  product = functools.reduce(
+    lambda accumulator, current_value: accumulator * current_value,
+    values
+  )
+  print('part 1 =', product)
 
 # get_part_1()
 get_part_2()
