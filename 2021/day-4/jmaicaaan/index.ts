@@ -4,6 +4,8 @@ const input = data.split('\n');
 
 const drawNumbers = input[0].split(',');
 const DRAW_NUMBERS_INDEX = 0;
+// If it reaches 5 rows or 5 columns then that board wins!
+const TOTAL_COUNT_OF_WINNER = 5;
 
 type BoardMapItem = {
   number: number,
@@ -12,50 +14,6 @@ type BoardMapItem = {
   status: 'open' | 'closed', // open = not marked, closed = marked
 };
 type BoardMap = Record<string, BoardMapItem>;
-
-const pipe = (...fns: Function[]) => (i: unknown) =>
-  fns.reduce((f, d) => d(f), i);
-
-
-const getAllBoards = () => {
-  const copyInput = [...input].filter((i, index) => index !== DRAW_NUMBERS_INDEX && i);
-  const boards = [];
-
-  while (copyInput.length) {
-    const board = copyInput.splice(0, 5);
-    boards.push(board);
-  }
-
-  return boards;
-};
-
-const buildBoardMap = (board: string[]) => {
-  const lookup: BoardMap = {};
-
-  board.forEach((boardItem, boardItemIndex) => {
-    const regex = new RegExp(/\D+/)
-    const itemNumbers = boardItem.trim().split(regex);
-    itemNumbers.forEach((itemNumber, itemNumberIndex) => {
-      lookup[itemNumber] = {
-        number: Number(itemNumber),
-        row: boardItemIndex,
-        column: itemNumberIndex,
-        status: 'open',
-      };
-    });
-  });
-
-  return lookup;
-};
-
-const markNumber = (num: number) => (boardMap: BoardMap) => {
-  if (boardMap[num]) {
-    const newBoardMap = { ...boardMap };
-    newBoardMap[num].status = 'closed';
-  }
-
-  return boardMap;
-};
 
 type CheckResult = {
   rows: {
@@ -69,55 +27,118 @@ type CheckResult = {
     };
   },
 };
+
+type GameStatus = {
+  shouldStopDrawingNumbers: boolean;
+  lastDrawNumber: number;
+  winnerBoard: BoardMap | undefined;
+  winnerBoardIndex: number;
+  winnerDirection: string;
+};
+
+const pipe = (...fns: Function[]) => (i: unknown) =>
+  fns.reduce((f, d) => d(f), i);
+
+const getAllBoards = () => {
+  const copyInput = [...input]
+    .filter((line, index) => index !== DRAW_NUMBERS_INDEX && line);
+  const boards = [];
+
+  while (copyInput.length) {
+    const board = copyInput.splice(0, 5);
+    boards.push(board);
+  }
+
+  return boards;
+};
+
+const buildBoardMap = (board: string[]) => {
+  return board.reduce((accumulator, currentValue, currentIndex) => {
+    const regex = new RegExp(/\D+/)
+    const lineNumbers = currentValue.trim().split(regex);
+    const columnIndex = currentIndex;
+
+    lineNumbers.forEach((lineNumber, lineNumberIndex) => {
+      const rowIndex = lineNumberIndex;
+      accumulator[lineNumber] = {
+        number: Number(lineNumber),
+        row: rowIndex,
+        column: columnIndex,
+        status: 'open',
+      };
+    });
+
+    return accumulator;
+  }, {} as BoardMap)
+};
+
+const markNumber = (num: number) => (boardMap: BoardMap) => {
+  const isNumberNotExistingInBoard = !boardMap[num];
+
+  if (isNumberNotExistingInBoard) {
+    return boardMap;
+  }
+
+  // copy and mutate
+  const newBoardMap = { ...boardMap };
+  newBoardMap[num].status = 'closed';
+  return newBoardMap;
+};
+
 const checkWinner = (boardMap: BoardMap) => {
-  const getClosedNumbers = (_key: string, value: BoardMapItem) => {
+  const getClosedNumbers = ([, value]: [string, BoardMapItem]) => {
     return value.status === 'closed';
   };
 
-  const a = Object.entries(boardMap)
-    .filter(([key, value]) => getClosedNumbers(key, value))
-    .reduce((accumulator, currentValue) => {
-      const [, boardItem] = currentValue;
+  const groupByCheckResult = (
+    accumulator: CheckResult,
+    currentValue: [string, BoardMapItem]
+  ) => {
+    const [, boardItem] = currentValue;
 
-      if (accumulator.rows[boardItem.row]) {
-        if (!accumulator.rows[boardItem.row].count) {
-          accumulator.rows[boardItem.row].count = 1;
-        } else {
-          accumulator.rows[boardItem.row].count += 1;
-        }
+    if (accumulator.rows[boardItem.row]) {
+      if (!accumulator.rows[boardItem.row].count) {
+        accumulator.rows[boardItem.row].count = 1;
       } else {
-        accumulator.rows[boardItem.row] = {
-          count: 1,
-        };
+        accumulator.rows[boardItem.row].count += 1;
       }
+    } else {
+      accumulator.rows[boardItem.row] = {
+        count: 1,
+      };
+    }
 
-      if (accumulator.columns[boardItem.column]) {
-        if (!accumulator.columns[boardItem.column].count) {
-          accumulator.columns[boardItem.column].count = 1;
-        } else {
-          accumulator.columns[boardItem.column].count += 1;
-        }
+    if (accumulator.columns[boardItem.column]) {
+      if (!accumulator.columns[boardItem.column].count) {
+        accumulator.columns[boardItem.column].count = 1;
       } else {
-        accumulator.columns[boardItem.column] = {
-          count: 1,
-        };
+        accumulator.columns[boardItem.column].count += 1;
       }
+    } else {
+      accumulator.columns[boardItem.column] = {
+        count: 1,
+      };
+    }
 
-      return accumulator;
-    }, {
+    return accumulator;
+  };
+
+  return Object.entries(boardMap)
+    .filter(getClosedNumbers)
+    .reduce(groupByCheckResult, {
       'rows': {},
       'columns': {},
     } as CheckResult)
-
-  return a;
 };
 
 const hasWinner = (checkResult: CheckResult) => {
+  const hasTotalCount = (count: number) => count === TOTAL_COUNT_OF_WINNER;
+
   const rowWinner = Object.values(checkResult.rows)
-    .find((value) => value.count === 5);
+    .find((value) => hasTotalCount(value.count));
 
   const columnWinner = Object.values(checkResult.columns)
-    .find((value) => value.count === 5);
+    .find((value) => hasTotalCount(value.count));
 
   if (rowWinner) {
     return {
@@ -147,13 +168,7 @@ const getSum = (nums: number[]) => nums.reduce((accumulator, currentValue) => {
 const playPart1 = () => {
   const boards = getAllBoards();
 
-  const gameStatus: {
-    shouldStopDrawingNumbers: boolean;
-    lastDrawNumber: number;
-    winnerBoard: BoardMap | undefined;
-    winnerBoardIndex: number;
-    winnerDirection: string;
-  } = {
+  const gameStatus: GameStatus = {
     shouldStopDrawingNumbers: false,
     lastDrawNumber: 0,
     winnerBoard: undefined,
@@ -169,16 +184,16 @@ const playPart1 = () => {
     }
 
     boardMaps.forEach((board, boardIndex) => {
-      const res = pipe(
+      const result = pipe(
         markNumber(Number(drawNumber)),
         checkWinner,
         hasWinner,
       )(board) as { direction: string };
 
-      if (res) {
+      if (result) {
         gameStatus.shouldStopDrawingNumbers = true;
         gameStatus.lastDrawNumber = Number(drawNumber);
-        gameStatus.winnerDirection = res.direction;
+        gameStatus.winnerDirection = result.direction;
         gameStatus.winnerBoard = board;
         gameStatus.winnerBoardIndex = boardIndex;
         return;
@@ -194,6 +209,7 @@ const playPart1 = () => {
     const res1 = sumOfAllOpenItems * gameStatus.lastDrawNumber;
     const part1 = res1;
     console.log('part1', part1);
+    // 4662
   }
 };
 
@@ -202,13 +218,7 @@ playPart1();
 const playPart2 = () => {
   const boards = getAllBoards();
 
-  const gameStatus: {
-    shouldStopDrawingNumbers: boolean;
-    lastDrawNumber: number;
-    winnerBoard: BoardMap | undefined;
-    winnerBoardIndex: number;
-    winnerDirection: string;
-  } = {
+  const gameStatus: GameStatus = {
     shouldStopDrawingNumbers: false,
     lastDrawNumber: 0,
     winnerBoard: undefined,
@@ -225,7 +235,7 @@ const playPart2 = () => {
         return;
       }
 
-      const res = pipe(
+      const result = pipe(
         markNumber(Number(drawNumber)),
         checkWinner,
         hasWinner,
@@ -235,7 +245,7 @@ const playPart2 = () => {
       if (indexes.length === boardMaps.length) {
         gameStatus.shouldStopDrawingNumbers = true;
         gameStatus.lastDrawNumber = Number(drawNumber);
-        gameStatus.winnerDirection = res.direction;
+        gameStatus.winnerDirection = result.direction;
         // do not use the `board` but use the last index then get the appropriate board
         gameStatus.winnerBoard = boardMaps[Number([...indexes].pop())];
         gameStatus.winnerBoardIndex = Number([...indexes].pop());
@@ -243,7 +253,7 @@ const playPart2 = () => {
         return;
       }
 
-      if (res) {
+      if (result) {
         // if this board has a winner, push it
         if (!indexes.includes(boardIndex)) {
           indexes.push(boardIndex);
