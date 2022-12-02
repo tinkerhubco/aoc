@@ -2272,12 +2272,12 @@ const getPart1 = () => {
 
 const getPart2 = () => {
 	const sum = [...elvesMap]
-	.sort((elfA, elfB) => elfA[1] > elfB[1] ? -1 : 1)
-	.splice(0, 3)
-	.reduce((accumulator, currentValue) => {
-		accumulator += currentValue[1];
-		return accumulator;
-	}, 0);
+		.sort((elfA, elfB) => elfA[1] > elfB[1] ? -1 : 1)
+		.splice(0, 3)
+		.reduce((accumulator, currentValue) => {
+			accumulator += currentValue[1];
+			return accumulator;
+		}, 0);
 
 	return sum;
 };

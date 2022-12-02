@@ -2,5 +2,7 @@
   "deno.enable": true,
   "deno.lint": true,
   "deno.unstable": true,
-  "deno.path": "/usr/local/Cellar/deno/1.13.0/bin/deno"
+  "deno.path": "/usr/local/Cellar/deno/1.13.0/bin/deno",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
 }
