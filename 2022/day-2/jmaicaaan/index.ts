@@ -2630,23 +2630,28 @@ const getResultPart2 = (opponent: string, player: string) => {
     return 0;
   }
 
-
   return 0;
 };
 
-const part1 = input.trim().split('\n').reduce((accumulator, currentValue) => {
-  const [opponent, player] = currentValue.split(' ');
-  const result = getResultPart1(opponent, player);
-  accumulator += result;
-  return accumulator;
-}, 0);
+const part1 = input
+  .trim()
+  .split('\n')
+  .reduce((accumulator, currentValue) => {
+    const [opponent, player] = currentValue.split(' ');
+    const result = getResultPart1(opponent, player);
+    accumulator += result;
+    return accumulator;
+  }, 0);
 
-const part2 = input.trim().split('\n').reduce((accumulator, currentValue) => {
-  const [opponent, player] = currentValue.split(' ');
-  const result = getResultPart2(opponent, player);
-  accumulator += result;
-  return accumulator;
-}, 0);
+const part2 = input
+  .trim()
+  .split('\n')
+  .reduce((accumulator, currentValue) => {
+    const [opponent, player] = currentValue.split(' ');
+    const result = getResultPart2(opponent, player);
+    accumulator += result;
+    return accumulator;
+  }, 0);
 
 // part 1 12156
 // part 2 10835
@@ -2654,5 +2659,4 @@ const part2 = input.trim().split('\n').reduce((accumulator, currentValue) => {
 console.log('part1', part1);
 console.log('part2', part2);
 
-
-export { };
+export {};

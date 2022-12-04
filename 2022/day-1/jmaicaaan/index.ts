@@ -2246,40 +2246,40 @@ const input = `
 const elvesMap = new Map<number, number>();
 
 const initializeMap = () => {
-	let calories = 0;
-	let counter = 0;
+  let calories = 0;
+  let counter = 0;
 
-	input.split('\n')
-		.forEach((item) => {
-			if (item === '') {
-				calories = 0;
-				counter += 1;
-				return;
-			}
+  input.split('\n').forEach((item) => {
+    if (item === '') {
+      calories = 0;
+      counter += 1;
+      return;
+    }
 
-			calories += Number(item);
-			elvesMap.set(counter, calories);
-		});
+    calories += Number(item);
+    elvesMap.set(counter, calories);
+  });
 };
 
 const getPart1 = () => {
-	const highestCalories = [...elvesMap]
-		.sort((elfA, elfB) => elfA[1] > elfB[1] ? -1 : 1)
-		.shift()?.[1] || 0;
+  const highestCalories =
+    [...elvesMap]
+      .sort((elfA, elfB) => (elfA[1] > elfB[1] ? -1 : 1))
+      .shift()?.[1] || 0;
 
-	return highestCalories;
+  return highestCalories;
 };
 
 const getPart2 = () => {
-	const sum = [...elvesMap]
-		.sort((elfA, elfB) => elfA[1] > elfB[1] ? -1 : 1)
-		.splice(0, 3)
-		.reduce((accumulator, currentValue) => {
-			accumulator += currentValue[1];
-			return accumulator;
-		}, 0);
+  const sum = [...elvesMap]
+    .sort((elfA, elfB) => (elfA[1] > elfB[1] ? -1 : 1))
+    .splice(0, 3)
+    .reduce((accumulator, currentValue) => {
+      accumulator += currentValue[1];
+      return accumulator;
+    }, 0);
 
-	return sum;
+  return sum;
 };
 
 initializeMap();
@@ -2292,4 +2292,4 @@ console.log('part2', part2);
 // 69626
 // 206780
 
-export { };
+export {};

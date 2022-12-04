@@ -322,7 +322,7 @@ const getPart1 = () => {
 
   input
     .trim()
-    .split("\n")
+    .split('\n')
     .forEach((word) => {
       const first = word.substring(0, word.length / 2);
       const second = word.substring(word.length / 2, word.length);
@@ -343,11 +343,11 @@ const getPart2 = () => {
 
   input
     .trim()
-    .split("\n")
+    .split('\n')
     .forEach((word, index) => {
       if (index % 3 === 0) {
         groupedWords = [];
-       }
+      }
 
       groupedWords.push(word);
 
@@ -355,7 +355,11 @@ const getPart2 = () => {
         const [first, second, third] = groupedWords;
 
         alphabets.forEach((alphabet, index) => {
-          if (first.includes(alphabet) && second.includes(alphabet) && third.includes(alphabet)) {
+          if (
+            first.includes(alphabet) &&
+            second.includes(alphabet) &&
+            third.includes(alphabet)
+          ) {
             sum += index + 1;
           }
         });
@@ -371,7 +375,7 @@ const part2 = getPart2();
 // part 1 7850
 // part 2 2581
 
-console.log("part1", part1);
-console.log("part2", part2);
+console.log('part1', part1);
+console.log('part2', part2);
 
 export {};
