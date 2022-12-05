@@ -575,7 +575,7 @@ const getPart2 = () => {
     for (let i = 1; i <= itemsToMove; i++) {
       const originCrateStacks = [...(crateMap.get(originCrate) || [])];
       const stack = originCrateStacks.pop() || '';
-      
+
       unsortedPoppedStacks.push(stack);
       crateMap.set(originCrate, originCrateStacks);
     }
