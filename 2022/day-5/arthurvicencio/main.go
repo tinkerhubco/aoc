@@ -10,7 +10,7 @@ import (
 var input string
 
 func main() {
-	fmt.Printf("Part 2: %s\n", part1())
+	fmt.Printf("Part 1: %s\n", part1())
 	fmt.Printf("Part 2: %s\n", part2())
 }
 
