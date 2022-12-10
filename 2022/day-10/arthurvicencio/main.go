@@ -58,7 +58,7 @@ func draw(cycle int, x int) string {
 	} else {
 		result = "."
 	}
-	if cycle == 39 {
+	if rowCycle == 39 {
 		result += "\n"
 	}
 	return result
